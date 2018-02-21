@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../classes/sql.php';
-
 class News 
 {
 	public $title;
@@ -10,10 +8,15 @@ class News
 	
 	public static function getAll() 
 	{
-		$db = new DB('localhost', 'root', '', 'news');
-		$items = [];
+		$db = new DB();
 		$sql = "SELECT title, text FROM news";
-		return $db->query($sql);
+		return $db->queryAll($sql, 'News');
+	}
+	public static function getOne($id) 
+	{
+		$db = new DB();
+		$sql = "SELECT title, text FROM news WHERE id=" . $id;
+		return $db->queryOne($sql, 'News');
 	}
 }
 
