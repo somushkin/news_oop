@@ -1,23 +1,14 @@
 <?php
 
 class News 
+	extends AbstractModel
 {
+	public $id;
 	public $title;
 	public $text;
-	static public $delim = ': ';
-	
-	public static function getAll() 
-	{
-		$db = new DB();
-		$sql = "SELECT title, text FROM news";
-		return $db->queryAll($sql, 'News');
-	}
-	public static function getOne($id) 
-	{
-		$db = new DB();
-		$sql = "SELECT title, text FROM news WHERE id=" . $id;
-		return $db->queryOne($sql, 'News');
-	}
+	public static $delim = ': ';
+	protected static $table = 'news';
+	protected static $class = 'News';
 }
 
 

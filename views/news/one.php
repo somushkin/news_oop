@@ -12,7 +12,7 @@
 		</tr>
 		<tr>
 			<td><?php echo $item->title . News::$delim; ?></td>
-			<td><?php echo $item->text ?></td>
+			<td><?php echo $item->text; ?></td>
 		</tr>
 	</table>
 	<br>
