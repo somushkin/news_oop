@@ -2,30 +2,32 @@
 
 class DB 
 {
+	private $dbh;
+	private $className = 'stdClass';
+
 	public function __construct() 
 	{
-		$host = 'localhost';
-		$login = 'root';
-		$password = '';
-		$dbname = 'news';
-		mysql_connect($host, $login, $password);
-		mysql_select_db($dbname);
+		/*
+			создается объект PDO, который хранит в себе связь с БД.
+			объект будет храниться в приватном свойстве $dbh
+		*/
+		$this->dbh = new PDO('mysql:dbname=news;host=localhost', 'root', '');
 	}
 
-	public function queryAll($sql, $class = 'stdClass') 
+	public function setClassName($className)
 	{
-		$res = mysql_query($sql);
-		$items = [];
-		while (false !== $row = mysql_fetch_object($res, $class)) {
-			$items[] = $row;
-		}
-		return $items;
+		$this->className = $className;
 	}
 
-	public function queryOne($sql, $class = 'stdClass') 
-	{
-		return $this->queryAll($sql, $class)[0];		
+	public function query($sql, $params = [])
+	{ 
+		$sth = $this->dbh->prepare($sql);
+		//	сойздается стейтмент, в который запишется результат подготовки запроса
+		$sth->execute($params);
+		// полнить запрос с указанными параметрами
+		return $sth->fetchAll(PDO::FETCH_CLASS, $this->className);
 	}
+
 }
 
 ?>
